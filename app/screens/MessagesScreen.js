@@ -1,7 +1,15 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Platform,
+  StatusBar,
+  View,
+} from 'react-native';
 
 import ListItem from '../components/ListItem.js';
+import ListItemSeparator from './../components/ListItemSeparator';
 
 const messages = [
   {
@@ -20,18 +28,27 @@ const messages = [
 
 function MessagesScreen(props) {
   return (
-    <FlatList
-      data={messages}
-      keyExtractor={message => message.id.toString()}
-      renderItem={({item}) => (
-        <ListItem
-          title={item.title}
-          subTitle={item.description}
-          image={item.image}
-        />
-      )}
-    />
+    <SafeAreaView style={styles.screen}>
+      <FlatList
+        data={messages}
+        keyExtractor={message => message.id.toString()}
+        renderItem={({item}) => (
+          <ListItem
+            title={item.title}
+            subTitle={item.description}
+            image={item.image}
+          />
+        )}
+        ItemSeparatorComponent={ListItemSeparator}
+      />
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  screen: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+});
 
 export default MessagesScreen;
